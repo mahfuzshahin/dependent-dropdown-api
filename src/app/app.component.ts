@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AppService } from './Service/app.service';
 
 @Component({
   selector: 'app-root',
@@ -14,25 +15,34 @@ export class AppComponent implements OnInit {
   floorId: string = '';
   clients: any[] = [];
   sites: any[] = [];
-  constructor(private http: HttpClient) {}
+  buildings: any[] = [];
+  floors: any[] = [];
+  constructor(private http: HttpClient, private service: AppService) {}
   ngOnInit() {
     this.loadClients();
   }
   loadClients() {
-    this.http
-      .get('http://onlinetestapi.gerasim.in/api/GetValet/GetAllClients')
-      .subscribe((result: any) => {
-        this.clients = result.data;
-      });
+    this.service.getAllClient().subscribe((result: any) => {
+      this.clients = result.data;
+    });
   }
+
   getSitesByClientId() {
-    this.http
-      .get(
-        'http://onlinetestapi.gerasim.in/api/GetValet/GetAllSites?clientid=' +
-          this.clientId
-      )
+    this.service.getSitesByClient(this.clientId).subscribe((result: any) => {
+      this.sites = result.data;
+    });
+  }
+  getBuildingBySiteId() {
+    this.service.getBuildingBySite(this.siteId).subscribe((result: any) => {
+      this.buildings = result.data;
+    });
+  }
+
+  getFloorByBuildingId() {
+    this.service
+      .getFloorByBuilding(this.buildingId)
       .subscribe((result: any) => {
-        this.sites = result.data;
+        this.floors = result.data;
       });
   }
 }

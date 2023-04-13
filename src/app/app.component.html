@@ -31,7 +31,12 @@
     </div>
     <div class="col-3">
       <label for="">Select Site</label>
-      <select class="form-control" id="dpdlSite" [(ngModel)]="siteId">
+      <select
+        class="form-control"
+        (change)="getBuildingBySiteId()"
+        id="dpdlSite"
+        [(ngModel)]="siteId"
+      >
         <option value="">Select</option>
         <option *ngFor="let item of sites" [value]="item.siteId">
           {{ item.siteName }}
@@ -40,16 +45,24 @@
     </div>
     <div class="col-3">
       <label for="">Select Building</label>
-      <select class="form-control" [(ngModel)]="buildingId">
+      <select
+        class="form-control"
+        (change)="getFloorByBuildingId()"
+        [(ngModel)]="buildingId"
+      >
         <option value="">Select</option>
-        <option>test</option>
+        <option *ngFor="let item of buildings" [value]="item.buildingId">
+          {{ item.buildingName }}
+        </option>
       </select>
     </div>
     <div class="col-3">
       <label for="">Select Floor</label>
       <select class="form-control" [(ngModel)]="floorId">
         <option value="">Select</option>
-        <option>test</option>
+        <option *ngFor="let item of floors" [value]="item.floorId">
+          {{ item.floorNo }}
+        </option>
       </select>
     </div>
   </div>
